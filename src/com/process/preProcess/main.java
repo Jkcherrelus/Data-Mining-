@@ -66,7 +66,7 @@ public class main {
 		System.out.println();
 		System.out.println("program end");
 		
-		System.out.println("THIS MEANS");
+		System.out.println("im sorry for swearing");
 	}
 
 
