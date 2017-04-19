@@ -4,16 +4,16 @@ import java.util.HashMap;
 
 public class TestPreProcess {
 	
-	private HashMap<String,Integer> trainingWordCounts = new HashMap<String,Integer>();
-	private HashMap<String,Integer> processedWordCounts = new HashMap<String,Integer>();
+	private HashMap<String,Double> trainingWordCounts = new HashMap<String,Double>();
+	private HashMap<String,Double> processedWordCounts = new HashMap<String,Double>();
 	
-	public TestPreProcess (HashMap<String,Integer> trainingWordCounts){
+	public TestPreProcess (HashMap<String,Double> trainingWordCounts){
 		this.trainingWordCounts = trainingWordCounts;
 	}
 	
 	
 	
-	public HashMap<String,Integer> runPreProcess(){
+	public HashMap<String,Double> runPreProcess(){
 		
 		for (String key : trainingWordCounts.keySet()){
 			if(trainingWordCounts.get(key) >= 50){
@@ -22,13 +22,7 @@ public class TestPreProcess {
 			}	
 		}
 		
-		System.out.println(processedWordCounts);
-		
-		System.out.println(processedWordCounts.size());
-		
 		return processedWordCounts;
-		
-		
 		
 	}
 

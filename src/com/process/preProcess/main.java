@@ -20,7 +20,8 @@ public class main {
 		HashMap<String,Integer> spamDictionary = new HashMap<String,Integer>();
 		HashMap<String,Integer> emailDictionary = new HashMap<String,Integer>();
 		HashMap<String,Double> kNNdictionary = new HashMap<String,Double>();
-		HashMap<String,Integer> trainingWordCounts = new HashMap<String,Integer>();
+		HashMap<String,Double> trainingWordCounts = new HashMap<String,Double>();
+		HashMap<String,Double> processedkNNdictionary = new HashMap<String,Double>();
 		
 		//maps that hold all the words that appear more than 50 times
 		HashMap<String,Integer> trimDictionary = new HashMap<String,Integer>();
@@ -74,10 +75,10 @@ public class main {
 				        kNNdictionary.put(s, 0.0);
 				        
 				        if(trainingWordCounts.containsKey(s)){
-				        	int value = trainingWordCounts.get(s);
+				        	double value = trainingWordCounts.get(s);
 					        trainingWordCounts.put(s, ++value);
 				        }else {
-				        	trainingWordCounts.put(s, 0);
+				        	trainingWordCounts.put(s, 0.0);
 				        }
 				        
 				        
@@ -92,36 +93,35 @@ public class main {
 		kNN test20 = new kNN(allTrainingFiles, allTestingFiles, 20, kNNdictionary);
 
 		
-//		try {
-//			test1.runKNN();
-////			test3.runKNN();
-////			test5.runKNN();
-////			test20.runKNN();
-//		} catch (IOException e) {
-//			e.printStackTrace();
-//		}
+		try {
+			test1.runKNN();
+			test3.runKNN();
+			test5.runKNN();
+			test20.runKNN();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 		
-		
+		System.out.println("BEGINNING THE PREPROCESSING");
 		TestPreProcess test = new TestPreProcess(trainingWordCounts);
-		test.runPreProcess();
-	
+		processedkNNdictionary = test.runPreProcess();
+		System.out.println("FINISHED THE PREPROCESSING");
+		
+		kNN processedTest1 = new kNN(allTrainingFiles, allTestingFiles, 1, processedkNNdictionary);
+		kNN processedTest3 = new kNN(allTrainingFiles, allTestingFiles, 3, processedkNNdictionary);
+		kNN processedTest5 = new kNN(allTrainingFiles, allTestingFiles, 5, processedkNNdictionary);
+		kNN processedTest20 = new kNN(allTrainingFiles, allTestingFiles, 20, processedkNNdictionary);
+		
+		try {
+			processedTest1.runKNN();
+			processedTest3.runKNN();
+			processedTest5.runKNN();
+			processedTest20.runKNN();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
 ///////////////ENDING THE KNN SECTION/////////////////////////////////////////////////////
-		
-		
-//		PreProcess spamPreProcess = new PreProcess(spamSet,spamDictionary, spamFiles);
-//		PreProcess emailPreProcess = new PreProcess(emailSet,emailDictionary, emailFiles);
-//		
-//		spamPreProcess.trim(spamTrimDictionary, spamSet);
-//		emailPreProcess.trim(emailTrimDictionary, emailSet);
-//		
-//		System.out.println("spam files: \n" + spamTrimDictionary);
-//		System.out.println("spam files: \n" + emailTrimDictionary);
-//		//spamPreProcess.trim(trimDictionary, set);
-//		
-//		System.out.println();
-//		
-//		System.out.println();
 		System.out.println("program end");
 	}
 
