@@ -20,6 +20,7 @@ public class main {
 		HashMap<String,Integer> spamDictionary = new HashMap<String,Integer>();
 		HashMap<String,Integer> emailDictionary = new HashMap<String,Integer>();
 		HashMap<String,Double> kNNdictionary = new HashMap<String,Double>();
+		HashMap<String,Integer> trainingWordCounts = new HashMap<String,Integer>();
 		
 		//maps that hold all the words that appear more than 50 times
 		HashMap<String,Integer> trimDictionary = new HashMap<String,Integer>();
@@ -71,6 +72,15 @@ public class main {
 				    while(sc.hasNext()){
 				        String s = sc.next();
 				        kNNdictionary.put(s, 0.0);
+				        
+				        if(trainingWordCounts.containsKey(s)){
+				        	int value = trainingWordCounts.get(s);
+					        trainingWordCounts.put(s, ++value);
+				        }else {
+				        	trainingWordCounts.put(s, 0);
+				        }
+				        
+				        
 				    }
 				    
 				    sc.close();
@@ -82,15 +92,18 @@ public class main {
 		kNN test20 = new kNN(allTrainingFiles, allTestingFiles, 20, kNNdictionary);
 
 		
-		try {
-			test1.runKNN();
-			test3.runKNN();
-			test5.runKNN();
-			test20.runKNN();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-
+//		try {
+//			test1.runKNN();
+////			test3.runKNN();
+////			test5.runKNN();
+////			test20.runKNN();
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+		
+		TestPreProcess test = new TestPreProcess(trainingWordCounts);
+		test.runPreProcess();
 	
 
 ///////////////ENDING THE KNN SECTION/////////////////////////////////////////////////////
