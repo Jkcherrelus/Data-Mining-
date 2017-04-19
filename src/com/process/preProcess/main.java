@@ -31,14 +31,20 @@ public class main {
 		
 		//training files
 		File[] trainingFile = new File("train").listFiles();
+		File[] testingFile = new File("test").listFiles();
 		
 		//split the files into spam and non spam
 		ArrayList<File> spamFiles = new ArrayList<File>();
 		ArrayList<File> emailFiles = new ArrayList<File>();
+		ArrayList<File> allTrainingFiles = new ArrayList<File>();
+		ArrayList<File> allTestingFiles = new ArrayList<File>();
 		
 		//add the files to the array list 
 		for(int i=0;i<trainingFile.length;i++)
 		{
+			
+			allTrainingFiles.add(trainingFile[i]);
+			
 			if(trainingFile[i].getName().startsWith("spm"))
 			{
 				spamFiles.add(trainingFile[i]);
@@ -49,24 +55,43 @@ public class main {
 			}
 
 		}
+		
+		for(int i=0;i<testingFile.length;i++)
+		{
+			
+			allTestingFiles.add(testingFile[i]);
+		}
+		
+		kNN test1 = new kNN(allTrainingFiles, allTestingFiles, 1);
+		kNN test3 = new kNN(allTrainingFiles, allTestingFiles, 3);
+		kNN test5 = new kNN(allTrainingFiles, allTestingFiles, 5);
+		kNN test20 = new kNN(allTrainingFiles, allTestingFiles, 20);
 
 		
-		PreProcess spamPreProcess = new PreProcess(spamSet,spamDictionary, spamFiles);
-		PreProcess emailPreProcess = new PreProcess(emailSet,emailDictionary, emailFiles);
+		try {
+			test1.runKNN();
+//			test3.runKNN();
+//			test5.runKNN();
+//			test20.runKNN();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
 		
-		spamPreProcess.trim(spamTrimDictionary, spamSet);
-		emailPreProcess.trim(emailTrimDictionary, emailSet);
-		
-		System.out.println("spam files: \n" + spamTrimDictionary);
-		System.out.println("spam files: \n" + emailTrimDictionary);
-		//spamPreProcess.trim(trimDictionary, set);
-		
-		System.out.println();
-		
-		System.out.println();
+//		PreProcess spamPreProcess = new PreProcess(spamSet,spamDictionary, spamFiles);
+//		PreProcess emailPreProcess = new PreProcess(emailSet,emailDictionary, emailFiles);
+//		
+//		spamPreProcess.trim(spamTrimDictionary, spamSet);
+//		emailPreProcess.trim(emailTrimDictionary, emailSet);
+//		
+//		System.out.println("spam files: \n" + spamTrimDictionary);
+//		System.out.println("spam files: \n" + emailTrimDictionary);
+//		//spamPreProcess.trim(trimDictionary, set);
+//		
+//		System.out.println();
+//		
+//		System.out.println();
 		System.out.println("program end");
-		
-		System.out.println("im sorry for swearing");
 	}
 
 
