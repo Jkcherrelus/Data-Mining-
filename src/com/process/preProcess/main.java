@@ -1,23 +1,25 @@
 package com.process.preProcess;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Scanner;
 
 public class main {
 
-	public static void main(String[] args) 
+	public static void main(String[] args) throws FileNotFoundException 
 	{
 		//local class objects
 		main main = new main();
 		HashMap<String,Integer> dictionary = new HashMap<String,Integer>();
 		HashMap<String,Integer> spamDictionary = new HashMap<String,Integer>();
 		HashMap<String,Integer> emailDictionary = new HashMap<String,Integer>();
-		
+		HashMap<String,Double> kNNdictionary = new HashMap<String,Double>();
 		
 		//maps that hold all the words that appear more than 50 times
 		HashMap<String,Integer> trimDictionary = new HashMap<String,Integer>();
@@ -61,22 +63,38 @@ public class main {
 			
 			allTestingFiles.add(testingFile[i]);
 		}
+
+///////////////RUNNING THE KNN SECTION/////////////////////////////////////////////////////
+		//Getting the dictionary of words from the training set
+				for(int i = 0; i < allTrainingFiles.size(); i++){
+					Scanner sc = new Scanner(new FileReader(allTrainingFiles.get(i)));
+				    while(sc.hasNext()){
+				        String s = sc.next();
+				        kNNdictionary.put(s, 0.0);
+				    }
+				    
+				    sc.close();
+				}					
 		
-		kNN test1 = new kNN(allTrainingFiles, allTestingFiles, 1);
-		kNN test3 = new kNN(allTrainingFiles, allTestingFiles, 3);
-		kNN test5 = new kNN(allTrainingFiles, allTestingFiles, 5);
-		kNN test20 = new kNN(allTrainingFiles, allTestingFiles, 20);
+		kNN test1 = new kNN(allTrainingFiles, allTestingFiles, 1, kNNdictionary);
+		kNN test3 = new kNN(allTrainingFiles, allTestingFiles, 3, kNNdictionary);
+		kNN test5 = new kNN(allTrainingFiles, allTestingFiles, 5, kNNdictionary);
+		kNN test20 = new kNN(allTrainingFiles, allTestingFiles, 20, kNNdictionary);
 
 		
 		try {
 			test1.runKNN();
-//			test3.runKNN();
-//			test5.runKNN();
-//			test20.runKNN();
+			test3.runKNN();
+			test5.runKNN();
+			test20.runKNN();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 
+	
+
+///////////////ENDING THE KNN SECTION/////////////////////////////////////////////////////
+		
 		
 //		PreProcess spamPreProcess = new PreProcess(spamSet,spamDictionary, spamFiles);
 //		PreProcess emailPreProcess = new PreProcess(emailSet,emailDictionary, emailFiles);

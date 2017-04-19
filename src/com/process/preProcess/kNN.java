@@ -1,14 +1,11 @@
 package com.process.preProcess;
 
-import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Scanner;
 
 public class kNN {
@@ -22,28 +19,17 @@ public class kNN {
 	private int k;
 	private double accuracy,  spamTotal, msgTotal, correctClassification;
 	
-	public kNN(ArrayList<File> allTrainingFiles, ArrayList<File> allTestingFiles, int k){
+	public kNN(ArrayList<File> allTrainingFiles, ArrayList<File> allTestingFiles, int k, HashMap<String,Double> dictionary){
 		this.allTrainingFiles = allTrainingFiles;
 		this.allTestingFiles = allTestingFiles;
 		this.k = k;
+		this.dictionary = dictionary;
 	}
 	
 	
 	public void runKNN() throws IOException{		
 
-//Getting the dictionary of words from the training set
-		for(int i = 0; i < allTrainingFiles.size(); i++){
-			Scanner sc = new Scanner(new FileReader(allTrainingFiles.get(i)));
-		    while(sc.hasNext()){
-		        String s = sc.next();
-		        dictionary.put(s, 0.0);
-		    }
-		    
-		    sc.close();
-		}
-		
 //Compare dictionary to testing messages and count words in message (include 0)
-		
 		//Finding the counts for all the testing files
 		for(int i = 0; i < allTestingFiles.size(); i++){
 			
@@ -69,7 +55,7 @@ public class kNN {
 		    //put into testingFileCounts hash map
 			testingFileCounts.put(allTestingFiles.get(i).toString(), wordCountInSingleDoc);
 		}
-		
+
 		//Finding the counts for all the training files
 		for(int i = 0; i < allTrainingFiles.size(); i++){
 			
@@ -96,14 +82,11 @@ public class kNN {
 		    trainingFileCounts.put(allTrainingFiles.get(i).toString(), wordCountInSingleDoc);
 		}
 		
-		
-		
-		
 //Find cosine similarity of test message to every training message
+		
 		
 		//loop through testing files
 		for (File test : allTestingFiles) {
-
 			HashMap<String,Double> testingFileMap = new HashMap<String,Double>();
 			HashMap<String,Double> cosineSimilarities = new HashMap<String,Double>();
 			
@@ -147,31 +130,35 @@ public class kNN {
 			ArrayList<Double> kMaxSimilarity = new ArrayList<Double>(k);
 			ArrayList<String> kMaxSimilarityFileName = new ArrayList<String>(k);
 			double count = 0;
+			int minIndex = 0;
+			double minValue = 0.0;
 			
 			for (String key : cosineSimilarities.keySet()){
 				   //Populate at the start
 				   if(count < k){
 					   kMaxSimilarity.add(cosineSimilarities.get(key));
 					   kMaxSimilarityFileName.add(key);
-					   count++;
-				   }else {
-					 //Check for min of arraylist
-					   int minIndex = kMaxSimilarity.indexOf(Collections.min(kMaxSimilarity));
-					   double minValue = kMaxSimilarity.get(minIndex);
 					   
+					   minIndex = kMaxSimilarity.indexOf(Collections.min(kMaxSimilarity));
+					   minValue = kMaxSimilarity.get(minIndex);
+					   count++;
+				   }else {					   
 					   //If new cosine similarity value is greater than min then replace
-					   if(cosineSimilarities.get(key) > minValue){
+					   if(cosineSimilarities.get(key) > minValue){		   
 						   kMaxSimilarity.set(minIndex, cosineSimilarities.get(key));
 						   kMaxSimilarityFileName.set(minIndex, key);
+						   
+						   minIndex = kMaxSimilarity.indexOf(Collections.min(kMaxSimilarity));
+						   minValue = kMaxSimilarity.get(minIndex);   
 					   }
+					   
 				   } 
 			}
-			
+		
 			//check majority type of mail from k number of max similarities
 			//int k, spamTotal, msgTotal, correctClassification;
 			for (String temp : kMaxSimilarityFileName) {
-				
-				if(temp.toLowerCase().contains("spm")){
+				if(temp.contains("spm")){
 					spamTotal += 1;
 				} else {
 					msgTotal += 1;
@@ -179,8 +166,9 @@ public class kNN {
 			}
 			
 			
-			//If training set says it is spam
-			if(spamTotal > msgTotal){
+			//Check if which classification is higher then check that test message 
+			//matches that classification. If yes then add to correctClassification variable
+			if(spamTotal >= msgTotal){ //If training set says it is spam
 				if(test.toString().contains("spm")){
 					correctClassification += 1;
 				}
@@ -190,23 +178,13 @@ public class kNN {
 				}
 			}
 			
-			
+			spamTotal = 0;
+			msgTotal = 0;
 			
 		}
-			
-		
 		
 		accuracy = correctClassification / allTestingFiles.size();
-		
-		
-		System.out.println("The spmtotal is: " + spamTotal);
-		System.out.println("The msgTotal is: " + msgTotal);
-		System.out.println("The correctClassification is: " + correctClassification);
-		System.out.println("The alltestingfiles is: " + allTestingFiles.size());
-		
-		System.out.println("The accuracy is: " + accuracy);
-		
-		
+		System.out.println("For k=" + k +", the accuracy of classification is: " + String.format("%.2f", accuracy));
 	}
 	
 }
