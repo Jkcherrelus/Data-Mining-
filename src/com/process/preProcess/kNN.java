@@ -183,8 +183,8 @@ public class kNN {
 			
 		}
 		
-		accuracy = correctClassification / allTestingFiles.size();
-		System.out.println("For k=" + k +", the accuracy of classification is: " + String.format("%.2f", accuracy));
+		accuracy = (correctClassification / allTestingFiles.size()) * 100;
+		System.out.println("For k=" + k +", the accuracy of classification is: " + String.format("%.2f", accuracy) + "%");
 	}
 	
 }

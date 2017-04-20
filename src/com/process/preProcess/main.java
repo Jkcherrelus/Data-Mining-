@@ -66,6 +66,8 @@ public class main {
 			allTestingFiles.add(testingFile[i]);
 		}
 
+		
+
 ///////////////RUNNING THE KNN SECTION/////////////////////////////////////////////////////
 		//Getting the dictionary of words from the training set
 				for(int i = 0; i < allTrainingFiles.size(); i++){
@@ -91,7 +93,6 @@ public class main {
 		kNN test3 = new kNN(allTrainingFiles, allTestingFiles, 3, kNNdictionary);
 		kNN test5 = new kNN(allTrainingFiles, allTestingFiles, 5, kNNdictionary);
 		kNN test20 = new kNN(allTrainingFiles, allTestingFiles, 20, kNNdictionary);
-
 		
 		try {
 			test1.runKNN();
@@ -103,8 +104,10 @@ public class main {
 		}
 		
 		System.out.println("BEGINNING THE PREPROCESSING");
+		
 		TestPreProcess test = new TestPreProcess(trainingWordCounts);
 		processedkNNdictionary = test.runPreProcess();
+		
 		System.out.println("FINISHED THE PREPROCESSING");
 		
 		kNN processedTest1 = new kNN(allTrainingFiles, allTestingFiles, 1, processedkNNdictionary);
