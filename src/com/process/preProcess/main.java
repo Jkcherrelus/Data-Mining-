@@ -103,9 +103,9 @@ public class main {
 				
 				try {
 					processedTest1.runKNN();
-					processedTest3.runKNN();
-					processedTest5.runKNN();
-					processedTest20.runKNN();
+//					processedTest3.runKNN();
+//					processedTest5.runKNN();
+//					processedTest20.runKNN();
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

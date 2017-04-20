@@ -2,8 +2,10 @@ package com.NaiveBayes;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
+import java.util.Set;
 
 public class NaiveBayes 
 {
@@ -15,6 +17,8 @@ public class NaiveBayes
 	private boolean email;
 	private Double spamCount;
 	private Double emailCount;
+	private Double totalSpam = 0.0;//total spam emails
+	private Double totalReg = 0.0;//total regular emails
 	
 	public NaiveBayes(HashMap<String,HashMap<String,Double>> test, 
 			HashMap<String,HashMap<String,Double>> training)
@@ -28,55 +32,95 @@ public class NaiveBayes
 	
 	public void classifyTest()
 	{
-		Iterator<String> testIterator = testSet.keySet().iterator();
-		Iterator<String> trainingIterator = trainingSet.keySet().iterator();
+		HashMap<String,Double> test;
+		HashMap<String,Double> training;
 		
-		Double count = 0.0;
-		while(testIterator.hasNext())
+		
+		
+		//iterate through the files
+		for(String testName : testSet.keySet())
 		{
-			
-			Iterator<Entry<String,Double>> testMapIterate = testSet.get(testIterator.next()).entrySet().iterator();
-			while(trainingIterator.hasNext())
+			//grab the hash map for the file by name
+			test = testSet.get(testName);
+			//System.out.println(testName);
+			//go through all the training files
+			for(String trainName : trainingSet.keySet())
 			{
-				//checks whether the message is a regular message
-				if(trainingIterator.next().contains("-"))
+				//System.out.println(trainName);
+				//grab the training map by name
+				training = trainingSet.get(trainName);
+				
+				if(trainName.contains("-"))
 				{
-					Iterator<Entry<String,Double>> trainingMapIterate = trainingSet.get(trainingIterator.next()).entrySet().iterator();
-					while(testMapIterate.hasNext())
+					//System.out.println(trainName);
+					for(String word:test.keySet())
 					{
-						String testWord = testMapIterate.next().getKey();
-						
-						if(trainingMapIterate.next().getValue() > 0.0)
+						//check to see if the word appears in the training set
+						if(training.containsKey(word) )
 						{
-							regMap.put(testWord, count++);
-						}
-					}
-					count =0.0;
-				}
-				else {
-					Iterator<Entry<String,Double>> trainingMapIterate = trainingSet.get(trainingIterator.next()).entrySet().iterator();
-					while(testMapIterate.hasNext())
+							//check to see if the word appears more than once
+							if(training.get(word) > 1)
+							{
+								//
+								Double value = (regMap.get(word) == null) ? 0.0:regMap.get(word);
+								regMap.put(word, ++value);
+							}
+						}//end if
+					}//end inner most loop
+				}//end if
+				else //if the file is spam go here
+				{
+
+					//System.out.println(trainName);
+					for(String word:test.keySet())
 					{
-						String testWord = testMapIterate.next().getKey();
-						
-						if(testMapIterate.next().getKey() == trainingMapIterate.next().getKey()
-								&& trainingMapIterate.next().getValue() > 0)
+						//check to see if the word appears in the training set
+						if(training.containsKey(word) )
 						{
-							spamMap.put(testWord, count++);
-						}
-					}
-					count = 0.0;
-				}
-			}
-			
-			System.out.println(regMap);
-			
-		}
-	}
+							//check to see if the word appears more than once
+							if(training.get(word) > 1)
+							{
+								Double value = (spamMap.get(word) == null) ? 0.0:spamMap.get(word);
+								spamMap.put(word, ++value);
+							}
+						}//end if
+					}//end inner most loop
+				}//end else
+			}//end second loop
+		}//end outer loop
+		
+		//is it spam, return the class probability
+		classLog(true);
+		classLog(false);
+		
+		System.out.println(regMap);
+	}//end method
 	
 
+	public Double classLog(boolean spam)
+	{
+		Double log=0.0;
+		for(String word:trainingSet.keySet())
+		{
+			if(word.contains("-"))
+			{
+				totalReg++;
+			}
+			else {
+				totalSpam++;
+			}
+		}
+		if(spam)
+		{
+			return Math.log(totalSpam/(totalReg+totalSpam));
+		}
+		return Math.log(totalReg/(totalReg+totalSpam));
+	}
+	
+	
 	public Double sumLogs(Double count)
 	{
+	
 		return Math.log(count);
 	}
 	
