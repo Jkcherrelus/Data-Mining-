@@ -185,6 +185,16 @@ public class kNN {
 		
 		accuracy = (correctClassification / allTestingFiles.size()) * 100;
 		System.out.println("For k=" + k +", the accuracy of classification is: " + String.format("%.2f", accuracy) + "%");
+
 	}
 	
+	public HashMap<String,HashMap<String,Double>> getTestFiles()
+	{
+		return testingFileCounts;
+	}
+	
+	public HashMap<String,HashMap<String,Double>> getTrainingFiles()
+	{
+		return trainingFileCounts;
+	}
 }
