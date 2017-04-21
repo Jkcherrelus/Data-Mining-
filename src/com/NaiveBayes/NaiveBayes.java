@@ -11,8 +11,8 @@ public class NaiveBayes
 {
 	private HashMap<String, HashMap<String, Double>> trainingSet;
 	private HashMap<String, HashMap<String, Double>> testSet;
-	private HashMap<String, Double> regMap = new HashMap<String,Double>();
-	private HashMap<String, Double> spamMap = new HashMap<String,Double>();;
+	HashMap<String, Integer> regMap;
+	HashMap<String, Integer> spamMap;
 	private boolean spam;
 	private boolean email;
 	private Double spamCount;
@@ -36,36 +36,37 @@ public class NaiveBayes
 		HashMap<String,Double> training;
 		
 		
-		
 		//iterate through the files
 		for(String testName : testSet.keySet())
 		{
+			
+			regMap = new HashMap<String,Integer>();
+			spamMap = new HashMap<String,Integer>();
+			
 			//grab the hash map for the file by name
 			test = testSet.get(testName);
-			//System.out.println(testName);
+			System.out.println(test);
 			//go through all the training files
 			for(String trainName : trainingSet.keySet())
 			{
 				//System.out.println(trainName);
 				//grab the training map by name
 				training = trainingSet.get(trainName);
-				
 				if(trainName.contains("-"))
 				{
 					//System.out.println(trainName);
 					for(String word:test.keySet())
 					{
-						//check to see if the word appears in the training set
-						if(training.containsKey(word) )
-						{
 							//check to see if the word appears more than once
-							if(training.get(word) > 1)
+							if(test.get(word) > 0 && training.get(word) > 0)
 							{
-								//
-								Double value = (regMap.get(word) == null) ? 0.0:regMap.get(word);
-								regMap.put(word, ++value);
+								if(regMap.containsKey(word)){
+									int value = regMap.get(word);
+									regMap.put(word, ++value);
+								}else{
+									regMap.put(word, 1);
+								}
 							}
-						}//end if
 					}//end inner most loop
 				}//end if
 				else //if the file is spam go here
@@ -80,8 +81,8 @@ public class NaiveBayes
 							//check to see if the word appears more than once
 							if(training.get(word) > 1)
 							{
-								Double value = (spamMap.get(word) == null) ? 0.0:spamMap.get(word);
-								spamMap.put(word, ++value);
+//								Double value = (spamMap.get(word) == null) ? 0.0:spamMap.get(word);
+//								spamMap.put(word, ++value);
 							}
 						}//end if
 					}//end inner most loop

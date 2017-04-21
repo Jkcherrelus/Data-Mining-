@@ -76,11 +76,13 @@ public class main {
 						    sc.close();
 						}					
 				
+				TestNB testNB = new TestNB(allTrainingFiles, allTestingFiles);
+				testNB.runNB();
+				
 				kNN test1 = new kNN(allTrainingFiles, allTestingFiles, 1, kNNdictionary);
 				kNN test3 = new kNN(allTrainingFiles, allTestingFiles, 3, kNNdictionary);
 				kNN test5 = new kNN(allTrainingFiles, allTestingFiles, 5, kNNdictionary);
 				kNN test20 = new kNN(allTrainingFiles, allTestingFiles, 20, kNNdictionary);
-
 				
 //				try {
 //					test1.runKNN();
@@ -101,19 +103,20 @@ public class main {
 				kNN processedTest5 = new kNN(allTrainingFiles, allTestingFiles, 5, processedkNNdictionary);
 				kNN processedTest20 = new kNN(allTrainingFiles, allTestingFiles, 20, processedkNNdictionary);
 				
-				try {
-					processedTest1.runKNN();
+//				try {
+//					processedTest1.runKNN();
 //					processedTest3.runKNN();
 //					processedTest5.runKNN();
 //					processedTest20.runKNN();
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
+//				} catch (IOException e) {
+//					e.printStackTrace();
+//				}
 				
 				
 				//Naive-Bayes
-				NaiveBayes naive = new NaiveBayes(processedTest1.getTestFiles(),processedTest1.getTrainingFiles());
-				naive.classifyTest();
+//				NaiveBayes naive = new NaiveBayes(processedTest1.getTestFiles(),processedTest1.getTrainingFiles());
+//				naive.classifyTest();
+				
 
 		///////////////ENDING THE KNN SECTION/////////////////////////////////////////////////////
 				System.out.println("program end");
