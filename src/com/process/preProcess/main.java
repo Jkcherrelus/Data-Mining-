@@ -75,9 +75,7 @@ public class main {
 						    sc.close();
 						}		
 						
-				
-				TestNB testNB = new TestNB(allTrainingFiles, allTestingFiles, kNNdictionary);
-				testNB.runNB();
+		
 				
 				kNN test1 = new kNN(allTrainingFiles, allTestingFiles, 1, kNNdictionary);
 				kNN test3 = new kNN(allTrainingFiles, allTestingFiles, 3, kNNdictionary);
@@ -118,7 +116,11 @@ public class main {
 			
 		///////////////ENDING THE KNN SECTION/////////////////////////////////////////////////////
 				
-		///////////////BEGINNING THE NAIVE BAYES SECTION////////////////////////////////////////////
+		///////////////BEGINNING THE NAIVE BAYES SECTION////////////////////////////////////////////		
+				//without preprocessing
+				TestNB testNB = new TestNB(allTrainingFiles, allTestingFiles, kNNdictionary);
+				testNB.runNB();
+				//with preprocessing
 				TestNB testNB1 = new TestNB(allTrainingFiles, allTestingFiles, processedkNNdictionary);
 				testNB1.runNB();
 		//////////////ENDING THE NAIVE BAYES SECTION///////////////////////////////////////////////
