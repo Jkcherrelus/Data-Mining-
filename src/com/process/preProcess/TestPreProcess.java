@@ -21,11 +21,7 @@ public class TestPreProcess {
 					processedWordCounts.put(key, trainingWordCounts.get(key));
 			}	
 		}
-		
-		System.out.println(processedWordCounts.size());
-		
 		return processedWordCounts;
-		
 	}
 
 }

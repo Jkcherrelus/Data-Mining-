@@ -74,9 +74,10 @@ public class main {
 						    }
 						    
 						    sc.close();
-						}					
+						}		
+						
 				
-				TestNB testNB = new TestNB(allTrainingFiles, allTestingFiles);
+				TestNB testNB = new TestNB(allTrainingFiles, allTestingFiles, kNNdictionary);
 				testNB.runNB();
 				
 				kNN test1 = new kNN(allTrainingFiles, allTestingFiles, 1, kNNdictionary);
@@ -97,6 +98,9 @@ public class main {
 				TestPreProcess test = new TestPreProcess(trainingWordCounts);
 				processedkNNdictionary = test.runPreProcess();
 				System.out.println("FINISHED THE PREPROCESSING");
+				
+				TestNB testNB1 = new TestNB(allTrainingFiles, allTestingFiles, processedkNNdictionary);
+				testNB1.runNB();
 				
 				kNN processedTest1 = new kNN(allTrainingFiles, allTestingFiles, 1, processedkNNdictionary);
 				kNN processedTest3 = new kNN(allTrainingFiles, allTestingFiles, 3, processedkNNdictionary);

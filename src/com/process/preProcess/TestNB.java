@@ -10,6 +10,7 @@ import java.util.Scanner;
 
 public class TestNB {
 	
+	private HashMap<String,Double> dictionary = new HashMap<String,Double>();
 	private ArrayList<File> allTrainingFiles = new ArrayList<File>();
 	private ArrayList<File> allTestingFiles = new ArrayList<File>();
 	private double spamMessageTotal, regMessageTotal, correctClassification, accuracy;
@@ -18,10 +19,10 @@ public class TestNB {
 	private HashMap<String, Integer> wordCountInRegular = new HashMap<String, Integer>();
 	HashSet<String> wordsInAMessage = new HashSet<String>();
 	
-	public TestNB(ArrayList<File> allTrainingFiles, 
-			ArrayList<File> allTestingFiles){
+	public TestNB(ArrayList<File> allTrainingFiles, ArrayList<File> allTestingFiles, HashMap<String,Double> dictionary){
 		this.allTrainingFiles = allTrainingFiles;
 		this.allTestingFiles = allTestingFiles;
+		this.dictionary = dictionary;
 		
 	}
 	
@@ -38,12 +39,12 @@ public class TestNB {
 			if(allTrainingFiles.get(i).toString().contains("-")){//Then is a regular message
 				while(sc.hasNext()){
 					String s = sc.next();
-					
-					wordsInAMessage.add(s);
+					if(dictionary.containsKey(s)){
+						wordsInAMessage.add(s);
+					}
 				}//end while
 				
 				for(String word : wordsInAMessage){
-					
 					if(wordCountInRegular.containsKey(word)){
 						Integer value = wordCountInRegular.get(word);
 						wordCountInRegular.put(word, ++value);
@@ -56,11 +57,11 @@ public class TestNB {
 			} else{ //Then is a spam message
 				while(sc.hasNext()){
 					String s = sc.next();
-					
-					wordsInAMessage.add(s);
+					if(dictionary.containsKey(s)){
+						wordsInAMessage.add(s);
+					}
 				}
 				for(String word : wordsInAMessage){
-					
 					if(wordCountInSpam.containsKey(word)){
 						Integer value = wordCountInSpam.get(word);
 						wordCountInSpam.put(word, ++value);
