@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Scanner;
 
-import com.NaiveBayes.NaiveBayes;
 
 public class main {
 
@@ -85,44 +84,44 @@ public class main {
 				kNN test5 = new kNN(allTrainingFiles, allTestingFiles, 5, kNNdictionary);
 				kNN test20 = new kNN(allTrainingFiles, allTestingFiles, 20, kNNdictionary);
 				
-//				try {
-//					test1.runKNN();
-//					test3.runKNN();
-//					test5.runKNN();
-//					test20.runKNN();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
-//				
+				try {
+					test1.runKNN();
+					test3.runKNN();
+					test5.runKNN();
+					test20.runKNN();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+				
 				System.out.println("BEGINNING THE PREPROCESSING");
 				TestPreProcess test = new TestPreProcess(trainingWordCounts);
 				processedkNNdictionary = test.runPreProcess();
 				System.out.println("FINISHED THE PREPROCESSING");
 				
-				TestNB testNB1 = new TestNB(allTrainingFiles, allTestingFiles, processedkNNdictionary);
-				testNB1.runNB();
+
 				
 				kNN processedTest1 = new kNN(allTrainingFiles, allTestingFiles, 1, processedkNNdictionary);
 				kNN processedTest3 = new kNN(allTrainingFiles, allTestingFiles, 3, processedkNNdictionary);
 				kNN processedTest5 = new kNN(allTrainingFiles, allTestingFiles, 5, processedkNNdictionary);
 				kNN processedTest20 = new kNN(allTrainingFiles, allTestingFiles, 20, processedkNNdictionary);
 				
-//				try {
-//					processedTest1.runKNN();
-//					processedTest3.runKNN();
-//					processedTest5.runKNN();
-//					processedTest20.runKNN();
-//				} catch (IOException e) {
-//					e.printStackTrace();
-//				}
+				try {
+					processedTest1.runKNN();
+					processedTest3.runKNN();
+					processedTest5.runKNN();
+					processedTest20.runKNN();
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 				
 				
-				//Naive-Bayes
-//				NaiveBayes naive = new NaiveBayes(processedTest1.getTestFiles(),processedTest1.getTrainingFiles());
-//				naive.classifyTest();
-				
-
+			
 		///////////////ENDING THE KNN SECTION/////////////////////////////////////////////////////
+				
+		///////////////BEGINNING THE NAIVE BAYES SECTION////////////////////////////////////////////
+				TestNB testNB1 = new TestNB(allTrainingFiles, allTestingFiles, processedkNNdictionary);
+				testNB1.runNB();
+		//////////////ENDING THE NAIVE BAYES SECTION///////////////////////////////////////////////
 				System.out.println("program end");
 
 				
