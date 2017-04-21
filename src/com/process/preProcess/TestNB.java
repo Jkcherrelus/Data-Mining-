@@ -120,8 +120,8 @@ public class TestNB {
 			}
 			
 			//Now calculate P(W|R)*P(R) and P(W|S)*P(S)
-			spamProb = spamProb * (spamMessageTotal / allTrainingFiles.size());
-			regProb = regProb * (regMessageTotal / allTrainingFiles.size());
+			spamProb = spamProb + (spamMessageTotal / allTrainingFiles.size());
+			regProb = regProb + (regMessageTotal / allTrainingFiles.size());
 			
 			if(spamProb >= regProb){
 				if(allTestingFiles.get(i).toString().contains("spm")){
