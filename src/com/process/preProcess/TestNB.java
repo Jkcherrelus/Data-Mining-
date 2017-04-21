@@ -80,7 +80,7 @@ public class TestNB {
 		for (int i = 0; i < allTestingFiles.size(); i++){
 			ArrayList<Double> probabilityForSpam = new ArrayList<Double>();
 			ArrayList<Double> probabilityForReg = new ArrayList<Double>();
-			double spamProb = 0, regProb = 0;
+			double spamProb = 0.0, regProb = 0.0;
 			
 			HashSet<String> wordsInTestMessage = new HashSet<String>();
 			Scanner sc = new Scanner(new FileReader(allTestingFiles.get(i)));
@@ -124,7 +124,7 @@ public class TestNB {
 			regProb = regProb + (regMessageTotal / allTrainingFiles.size());
 			
 			if(spamProb >= regProb){
-				if(allTestingFiles.get(i).toString().contains("spm")){
+				if(allTestingFiles.get(i).toString().contains("sp")){
 					correctClassification += 1;
 				}
 			}else {
